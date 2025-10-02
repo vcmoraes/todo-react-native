@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useTasks } from '../../hooks/useTasks';
 import { useI18n } from '../../../../shared/hooks/useI18n';
-import TaskItem from '../TaskItem';
-import AddTask from '../AddTask';
+import TaskItem from '../../components/TaskItem';
+import AddTask from '../../components/AddTask';
 import { styles } from './styles';
 import Section from '../../../../shared/components/Section';
 
-const TaskList = () => {
+const TaskListScreen = () => {
   const { tasks, toggleTaskComplete, removeTask } = useTasks();
   const { translate } = useI18n();
 
@@ -60,4 +60,4 @@ const TaskList = () => {
   );
 };
 
-export default TaskList;
+export default TaskListScreen;

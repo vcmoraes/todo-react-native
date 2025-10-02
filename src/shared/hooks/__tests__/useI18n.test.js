@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useI18n } from '../useI18n';
 
 jest.mock('react-i18next', () => ({

@@ -15,6 +15,7 @@ module.exports = {
     '!src/**/styles.js',
     '!src/**/theme/**',
     '!src/**/styles/**',
+    '!src/**/screen/**',
     '!src/**/providers/**',
     '!src/**/constants/**',
     '!src/**/index.js',
