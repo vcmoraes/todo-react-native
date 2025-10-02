@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     color: colors.error,
     marginLeft: 2,
   },
-  inputContainer: {
+  input: {
     backgroundColor: colors.neutral50,
     borderWidth: 1,
     borderColor: colors.border,
@@ -28,10 +28,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     marginBottom: 20,
-  },
-  input: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.roboto,
     color: colors.textPlaceholder,
+  },
+  inputFocused: {
+    borderColor: colors.primary,
   },
 });
