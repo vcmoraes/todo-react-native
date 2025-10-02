@@ -3,6 +3,7 @@ import { View, Text, StatusBar } from 'react-native';
 import { TaskList } from './features/tasks';
 import { styles } from './styles/App.styles';
 import { AppJotaiProvider } from './providers/JotaiProvider';
+import PlusIcon from './shared/components/PlusIcon';
 import './i18n';
 import { colors } from './shared/theme';
 
@@ -10,8 +11,10 @@ const BottomNavigation = () => (
   <View style={styles.bottomNavigation}>
     {[1, 2, 3, 4].map((item) => (
       <View key={item} style={[styles.navTab, item === 1 && styles.navTabActive]}>
-        <View style={styles.navIcon} />
-        <Text style={styles.navLabel}>Item</Text>
+        <View style={styles.navTabContent}>
+          <PlusIcon size={24} />
+          <Text style={styles.navLabel}>Item</Text>
+        </View>
       </View>
     ))}
   </View>

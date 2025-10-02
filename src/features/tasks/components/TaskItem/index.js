@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import ButtonTertiary from '../../../../shared/components/ButtonTertiary';
 import RadioButton from '../../../../shared/components/RadioButton';
 import { styles } from './styles';
