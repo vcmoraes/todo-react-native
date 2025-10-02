@@ -29,7 +29,6 @@ const AddTask = () => {
         value={taskText}
         onChangeText={setTaskText}
         onSubmitEditing={handleAddTask}
-        returnKeyType="done"
       />
 
       <Button

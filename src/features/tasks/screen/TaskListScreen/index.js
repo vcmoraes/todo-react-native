@@ -8,19 +8,20 @@ import { styles } from './styles';
 import Section from '../../../../shared/components/Section';
 
 const TaskListScreen = () => {
-  const { tasks, toggleTaskComplete, removeTask } = useTasks();
+  const { tasks, toggleTaskComplete, removeTask, editTask } = useTasks();
   const { translate } = useI18n();
+
+  const getTaskKey = useCallback((task) => task.id.toString(), []);
 
   const renderTaskItem = useCallback(({ item }) => (
     <TaskItem
       task={item}
       onToggleComplete={toggleTaskComplete}
       onRemove={removeTask}
+      onEdit={editTask}
       removeButtonText={translate('taskList.removeButton')}
     />
-  ), [toggleTaskComplete, removeTask, translate]);
-
-  const getTaskKey = useCallback((task) => task.id.toString(), []);
+  ), [toggleTaskComplete, removeTask, editTask, translate]);
 
   const renderEmptyState = useCallback(() => (
     <View style={styles.emptyContainer}>
@@ -33,10 +34,10 @@ const TaskListScreen = () => {
   ), [translate]);
 
   const renderFooter = useCallback(() => (
-    <View>
+    <>
       <Section title={translate('addTask.title')} />
       <AddTask />
-    </View>
+    </>
   ), [translate]);
 
   const renderSeparator = useCallback(() => (

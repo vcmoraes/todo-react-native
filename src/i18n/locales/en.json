@@ -15,5 +15,9 @@
   "taskList": {
     "emptyState": "No tasks yet",
     "removeButton": "Remove item"
+  },
+  "taskItem": {
+    "edit": "Edit",
+    "save": "Save"
   }
 }

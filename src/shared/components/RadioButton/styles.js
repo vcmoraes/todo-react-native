@@ -6,6 +6,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    flex: 1,
+    minWidth: 0,
   },
   radioButton: {
     width: 30,
@@ -25,6 +27,6 @@ export const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.inter,
     color: colors.textPrimary,
     flex: 1,
-    flexWrap: 'wrap',
+    minWidth: 0,
   },
 });

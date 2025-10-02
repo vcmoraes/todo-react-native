@@ -8,7 +8,13 @@ const RadioButton = ({ selected = false, onPress, text }) => (
       style={[styles.radioButton, selected && styles.radioButtonSelected]}
       onPress={onPress}
     />
-    <Text style={styles.text}>{text}</Text>
+    <Text 
+      style={styles.text} 
+      numberOfLines={1} 
+      ellipsizeMode="tail"
+    >
+      {text}
+    </Text>
   </View>
 );
 

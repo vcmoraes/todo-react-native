@@ -5,6 +5,7 @@ import { useI18n } from '../shared/hooks/useI18n';
 import { styles } from '../styles/App.styles';
 import PlusIcon from '../shared/components/PlusIcon';
 
+// TODO: in react-native we use react-native-bottom-navigation
 const BottomNavigation = () => {
   const { activeTab, handleTabPress } = useNavigation();
   const { translate } = useI18n();

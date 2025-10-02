@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { styles } from './styles';
 
+// TODO: in react-native we use react-native-svg and assets exported from figma
 const PlusIcon = ({ size = 24 }) => {
   return (
     <View style={[styles.container, { width: size, height: size }]}>

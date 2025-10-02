@@ -4,6 +4,7 @@ import { DEFAULT_TAB } from './constants';
 
 const NavigationContext = createContext();
 
+// TODO: in react-native we use react-native-navigation
 export const useNavigation = () => {
   const context = useContext(NavigationContext);
   if (!context) {

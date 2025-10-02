@@ -179,4 +179,145 @@ describe('useTasks', () => {
     expect(newTasks[0].text).toBe('New Task');
     expect(newTasks[1].text).toBe('Task 1');
   });
+
+  it('GIVEN tasks with existing task WHEN editing task THEN should call setTasks with function', () => {
+    const mockTasks = [
+      { id: '1', text: 'Original text', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.editTask('1', 'Updated text');
+    });
+
+    expect(mockSetTasks).toHaveBeenCalledWith(expect.any(Function));
+  });
+
+  it('GIVEN tasks with existing task WHEN editing task THEN should update task text', () => {
+    const mockTasks = [
+      { id: '1', text: 'Original text', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.editTask('1', 'Updated text');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks[0].text).toBe('Updated text');
+    expect(newTasks[0].completed).toBe(false);
+  });
+
+  it('GIVEN tasks with multiple tasks WHEN editing task THEN should only edit specified task', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+      { id: '2', text: 'Task 2', completed: true },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.editTask('1', 'Updated Task 1');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks[0].text).toBe('Updated Task 1');
+    expect(newTasks[1].text).toBe('Task 2');
+  });
+
+  it('GIVEN tasks with task WHEN editing non-existent task THEN should not modify any task', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.editTask('non-existent', 'Updated text');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks[0].text).toBe('Task 1');
+  });
+
+  it('GIVEN tasks with task WHEN removing non-existent task THEN should not modify tasks', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.removeTask('non-existent');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks).toHaveLength(1);
+    expect(newTasks[0].text).toBe('Task 1');
+  });
+
+  it('GIVEN tasks with task WHEN toggling non-existent task THEN should not modify any task', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.toggleTaskComplete('non-existent');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks[0].completed).toBe(false);
+  });
+
+  it('GIVEN empty tasks WHEN adding empty text task THEN should still add task', () => {
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.addTask('');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall([]);
+
+    expect(newTasks).toHaveLength(1);
+    expect(newTasks[0].text).toBe('');
+  });
+
+  it('GIVEN tasks WHEN editing with empty text THEN should update task with empty text', () => {
+    const mockTasks = [
+      { id: '1', text: 'Original text', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.editTask('1', '');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
+
+    expect(newTasks[0].text).toBe('');
+  });
 });

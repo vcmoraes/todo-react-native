@@ -6,13 +6,19 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    minHeight: 60,
+    minHeight: 90,
+  },
+  editContainer: {
+    flex: 1,
   },
   taskContent: {
     flex: 1,
-    marginRight: 12,
+    marginRight: 8,
   },
-  removeButton: {
-    alignSelf: 'center',
+  actionButtons: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: 4,
+    marginLeft: 8,
   },
 });

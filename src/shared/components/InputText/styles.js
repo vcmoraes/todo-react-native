@@ -27,7 +27,6 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 20,
     paddingVertical: 12,
-    marginBottom: 20,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.roboto,
     color: colors.textPlaceholder,
