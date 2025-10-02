@@ -21,7 +21,10 @@ const InputText = ({
       </View>
 
       <TextInput
-        style={[styles.input, isFocused && styles.inputFocused]}
+        style={[
+          styles.input, 
+          isFocused && styles.inputFocused
+        ]}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}

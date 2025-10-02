@@ -6,15 +6,19 @@ import { styles } from './styles';
 
 const TaskItem = ({ task, onToggleComplete, onRemove, removeButtonText }) => (
   <View style={styles.taskItem}>
-    <RadioButton
-      selected={task.completed}
-      onPress={() => onToggleComplete(task.id)}
-      text={task.text}
-    />
-    <ButtonTertiary
-      text={removeButtonText}
-      onPress={() => onRemove(task.id)}
-    />
+    <View style={styles.taskContent}>
+      <RadioButton
+        selected={task.completed}
+        onPress={() => onToggleComplete(task.id)}
+        text={task.text}
+      />
+    </View>
+    <View style={styles.removeButton}>
+      <ButtonTertiary
+        text={removeButtonText}
+        onPress={() => onRemove(task.id)}
+      />
+    </View>
   </View>
 );
 

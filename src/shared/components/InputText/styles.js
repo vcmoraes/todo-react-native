@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.roboto,
     color: colors.textPlaceholder,
+    minHeight: 48,
   },
   inputFocused: {
     borderColor: colors.primary,

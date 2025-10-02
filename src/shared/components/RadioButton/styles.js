@@ -25,5 +25,6 @@ export const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.inter,
     color: colors.textPrimary,
     flex: 1,
+    flexWrap: 'wrap',
   },
 });
