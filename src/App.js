@@ -1,34 +1,46 @@
 import React from 'react';
-import { SafeAreaView, View, Text, StatusBar } from 'react-native';
-import { TaskList, AddTask } from './features/tasks';
+import { View, Text, StatusBar } from 'react-native';
+import { TaskList } from './features/tasks';
 import { styles } from './styles/App.styles';
 import { AppJotaiProvider } from './providers/JotaiProvider';
 import './i18n';
-import { useI18n } from './shared/hooks/useI18n';
+import { colors } from './shared/theme';
+
+const BottomNavigation = () => (
+  <View style={styles.bottomNavigation}>
+    {[1, 2, 3, 4].map((item) => (
+      <View key={item} style={[styles.navTab, item === 1 && styles.navTabActive]}>
+        <View style={styles.navIcon} />
+        <Text style={styles.navLabel}>Item</Text>
+      </View>
+    ))}
+  </View>
+);
 
 const AppContent = () => {
-  const { translate } = useI18n();
-
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{translate('app.title')}</Text>
-        <Text style={styles.headerSubtitle}>{translate('app.subtitle')}</Text>
+    <View style={styles.mainContent}>
+      <View style={styles.contentContainer}>
+        <TaskList />
       </View>
-      
-      <TaskList />
-      <AddTask />
-    </SafeAreaView>
+    </View>
+  );
+};
+
+const AppLayout = () => {
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+      <AppContent />
+      <BottomNavigation />
+    </View>
   );
 };
 
 export default function App() {
   return (
     <AppJotaiProvider>
-      <AppContent />
+      <AppLayout />
     </AppJotaiProvider>
   );
 }
-

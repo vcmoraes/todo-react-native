@@ -1,51 +1,61 @@
 import React, { useCallback } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { useTasks } from '../../hooks/useTasks';
-import { useTaskFilters } from '../../hooks/useTaskFilters';
+import { useI18n } from '../../../../shared/hooks/useI18n';
 import TaskItem from '../TaskItem';
-import FilterButtons from './FilterButtons';
-import EmptyState from './EmptyState';
-import ClearCompletedButton from './ClearCompletedButton';
+import AddTask from '../AddTask';
 import { styles } from './styles';
+import Section from '../../../../shared/components/Section';
 
 const TaskList = () => {
-  const { tasks, completedTasks, activeTasks, clearCompletedTasks } = useTasks();
-  const { currentFilter, filteredTasks, handleFilterChange } = useTaskFilters();
-
-  const hasCompletedTasks = completedTasks.length > 0;
+  const { tasks, toggleTaskComplete, removeTask } = useTasks();
+  const { translate } = useI18n();
 
   const renderTaskItem = useCallback(({ item }) => (
-    <TaskItem task={item} />
-  ), []);
+    <TaskItem
+      task={item}
+      onToggleComplete={toggleTaskComplete}
+      onRemove={removeTask}
+      removeButtonText={translate('taskList.removeButton')}
+    />
+  ), [toggleTaskComplete, removeTask, translate]);
 
   const getTaskKey = useCallback((task) => task.id.toString(), []);
 
   const renderEmptyState = useCallback(() => (
-    <EmptyState currentFilter={currentFilter} />
-  ), [currentFilter]);
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>{translate('taskList.emptyState')}</Text>
+    </View>
+  ), [translate]);
+
+  const renderHeader = useCallback(() => (
+    <Section title={translate('tasks.title')} />
+  ), [translate]);
+
+  const renderFooter = useCallback(() => (
+    <View>
+      <Section title={translate('addTask.title')} />
+      <AddTask />
+    </View>
+  ), [translate]);
+
+  const renderSeparator = useCallback(() => (
+    <View style={styles.divider} />
+  ), []);
 
   return (
     <View style={styles.container}>
-      <FilterButtons
-        currentFilter={currentFilter}
-        onFilterChange={handleFilterChange}
-        allTasksCount={tasks.length}
-        activeTasksCount={activeTasks.length}
-        completedTasksCount={completedTasks.length}
-      />
-
       <FlatList
-        data={filteredTasks}
+        data={tasks}
         renderItem={renderTaskItem}
         keyExtractor={getTaskKey}
         contentContainerStyle={styles.listContent}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderFooter}
         ListEmptyComponent={renderEmptyState}
+        ItemSeparatorComponent={renderSeparator}
         showsVerticalScrollIndicator={false}
       />
-
-      {hasCompletedTasks && (
-        <ClearCompletedButton onPress={clearCompletedTasks} />
-      )}
     </View>
   );
 };

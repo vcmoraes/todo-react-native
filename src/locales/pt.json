@@ -1,36 +1,15 @@
 {
-  "app": {
-    "title": "Meu Todo",
-    "subtitle": "Organiza aí suas coisas"
+  "tasks": {
+    "title": "Suas Tarefas"
   },
   "addTask": {
-    "placeholder": "O que precisa fazer?",
-    "addButton": "+"
+    "title": "Adicionar Nova Tarefa",
+    "label": "Nome",
+    "placeholder": "Novo nome",
+    "button": "Adicionar"
   },
   "taskList": {
-    "filters": {
-      "all": "Todas",
-      "active": "Pendentes",
-      "done": "Feitas"
-    },
-    "emptyStates": {
-      "noTasks": "Nada pra fazer ainda!",
-      "noCompleted": "Nenhuma tarefa feita",
-      "noActive": "Tudo em dia!"
-    },
-    "clearCompleted": "Limpar Feitas"
-  },
-  "taskItem": {
-    "editCancel": "Cancelar",
-    "editIcon": "✎",
-    "deleteIcon": "✕",
-    "checkmark": "✓"
-  },
-  "accessibility": {
-    "addTaskButton": "Adicionar tarefa",
-    "deleteTaskButton": "Deletar tarefa",
-    "editTaskButton": "Editar tarefa",
-    "completeTaskCheckbox": "Marcar como feita",
-    "taskInput": "Campo de tarefa"
+    "emptyState": "Nenhuma tarefa ainda",
+    "removeButton": "Remover item"
   }
 }

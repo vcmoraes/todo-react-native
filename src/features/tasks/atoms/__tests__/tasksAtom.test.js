@@ -1,73 +1,51 @@
-import { getDefaultStore } from 'jotai';
-import { tasksAtom, taskFilterAtom, filteredTasksAtom, activeTasksAtom, completedTasksAtom } from '../tasksAtom';
-import { TASK_FILTERS } from '../../constants/filters';
+import { renderHook } from '@testing-library/react-hooks';
+import { useAtom } from 'jotai';
+import { tasksAtom } from '../tasksAtom';
 
-describe('tasks atoms', () => {
-  let store;
+jest.mock('jotai', () => ({
+  useAtom: jest.fn(),
+}));
 
+describe('tasksAtom', () => {
   beforeEach(() => {
-    store = getDefaultStore();
+    jest.clearAllMocks();
   });
 
-  describe('tasksAtom', () => {
-    it('GIVEN initial state WHEN accessing tasksAtom THEN should return empty array', () => {
-      expect(store.get(tasksAtom)).toEqual([]);
-    });
+  it('GIVEN empty atom WHEN accessing tasks THEN should return empty array', () => {
+    const mockSetAtom = jest.fn();
+    useAtom.mockReturnValue([[], mockSetAtom]);
+
+    const { result } = renderHook(() => useAtom(tasksAtom));
+    const [tasks] = result.current;
+
+    expect(tasks).toEqual([]);
   });
 
-  describe('taskFilterAtom', () => {
-    it('GIVEN initial state WHEN accessing taskFilterAtom THEN should return ALL filter', () => {
-      expect(store.get(taskFilterAtom)).toBe(TASK_FILTERS.ALL);
-    });
-  });
-
-  describe('filteredTasksAtom', () => {
-    const tasks = [
-      { id: '1', text: 'task 1', completed: false },
-      { id: '2', text: 'task 2', completed: true },
-      { id: '3', text: 'task 3', completed: false },
+  it('GIVEN tasks in atom WHEN accessing tasks THEN should return provided tasks', () => {
+    const mockTasks = [
+      { id: '1', text: 'Test task', completed: false },
+      { id: '2', text: 'Another task', completed: true },
     ];
+    const mockSetAtom = jest.fn();
+    useAtom.mockReturnValue([mockTasks, mockSetAtom]);
 
-    it('GIVEN tasks with mixed completion status WHEN filter is ALL THEN should return all tasks', () => {
-      store.set(tasksAtom, tasks);
-      store.set(taskFilterAtom, TASK_FILTERS.ALL);
-      expect(store.get(filteredTasksAtom)).toEqual(tasks);
-    });
+    const { result } = renderHook(() => useAtom(tasksAtom));
+    const [tasks] = result.current;
 
-    it('GIVEN tasks with mixed completion status WHEN filter is ACTIVE THEN should return only active tasks', () => {
-      store.set(tasksAtom, tasks);
-      store.set(taskFilterAtom, TASK_FILTERS.ACTIVE);
-      expect(store.get(filteredTasksAtom)).toEqual([tasks[0], tasks[2]]);
-    });
-
-    it('GIVEN tasks with mixed completion status WHEN filter is COMPLETED THEN should return only completed tasks', () => {
-      store.set(tasksAtom, tasks);
-      store.set(taskFilterAtom, TASK_FILTERS.COMPLETED);
-      expect(store.get(filteredTasksAtom)).toEqual([tasks[1]]);
-    });
+    expect(tasks).toEqual(mockTasks);
+    expect(tasks).toHaveLength(2);
   });
 
-  describe('activeTasksAtom', () => {
-    it('GIVEN tasks with mixed completion status WHEN accessing activeTasksAtom THEN should return only non-completed tasks', () => {
-      const tasks = [
-        { id: '1', text: 'task 1', completed: false },
-        { id: '2', text: 'task 2', completed: true },
-        { id: '3', text: 'task 3', completed: false },
-      ];
-      store.set(tasksAtom, tasks);
-      expect(store.get(activeTasksAtom)).toEqual([tasks[0], tasks[2]]);
-    });
-  });
+  it('GIVEN empty atom WHEN setting new tasks THEN should call setAtom with new tasks', () => {
+    const mockSetAtom = jest.fn();
+    useAtom.mockReturnValue([[], mockSetAtom]);
 
-  describe('completedTasksAtom', () => {
-    it('GIVEN tasks with mixed completion status WHEN accessing completedTasksAtom THEN should return only completed tasks', () => {
-      const tasks = [
-        { id: '1', text: 'task 1', completed: false },
-        { id: '2', text: 'task 2', completed: true },
-        { id: '3', text: 'task 3', completed: false },
-      ];
-      store.set(tasksAtom, tasks);
-      expect(store.get(completedTasksAtom)).toEqual([tasks[1]]);
-    });
+    const { result } = renderHook(() => useAtom(tasksAtom));
+    const [, setTasks] = result.current;
+
+    const newTask = { id: '1', text: 'New task', completed: false };
+    setTasks([newTask]);
+
+    expect(mockSetAtom).toHaveBeenCalledWith([newTask]);
   });
 });

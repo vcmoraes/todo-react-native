@@ -1,16 +1,16 @@
 export const typography = {
+  fontFamily: {
+    inter: 'Inter',
+    roboto: 'Roboto',
+  },
   fontSize: {
     xs: 12,
     sm: 14,
     md: 16,
-    lg: 18,
     xl: 20,
-    xxxl: 32,
   },
-  
   fontWeight: {
-    light: '300',
-    semibold: '600',
+    medium: '500',
     bold: '700',
   },
 };

@@ -1,7 +1,1 @@
-export {
-  tasksAtom,
-  taskFilterAtom,
-  filteredTasksAtom,
-  activeTasksAtom,
-  completedTasksAtom,
-} from './tasksAtom';
+export { tasksAtom } from './tasksAtom';

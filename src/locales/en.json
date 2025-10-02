@@ -1,36 +1,15 @@
 {
-  "app": {
-    "title": "My Todo",
-    "subtitle": "Keep track of your stuff"
+  "tasks": {
+    "title": "Your Tasks"
   },
   "addTask": {
-    "placeholder": "What needs to be done?",
-    "addButton": "+"
+    "title": "Add New Task",
+    "label": "Name",
+    "placeholder": "New name",
+    "button": "Add"
   },
   "taskList": {
-    "filters": {
-      "all": "All",
-      "active": "Pending",
-      "done": "Done"
-    },
-    "emptyStates": {
-      "noTasks": "Nothing to do yet!",
-      "noCompleted": "No completed tasks",
-      "noActive": "All caught up!"
-    },
-    "clearCompleted": "Clear Done"
-  },
-  "taskItem": {
-    "editCancel": "Cancel",
-    "editIcon": "✎",
-    "deleteIcon": "✕",
-    "checkmark": "✓"
-  },
-  "accessibility": {
-    "addTaskButton": "Add task",
-    "deleteTaskButton": "Delete task",
-    "editTaskButton": "Edit task",
-    "completeTaskCheckbox": "Mark as done",
-    "taskInput": "Task input"
+    "emptyState": "No tasks yet",
+    "removeButton": "Remove item"
   }
 }

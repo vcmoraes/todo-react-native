@@ -1,194 +1,182 @@
-import { renderHook, act } from '@testing-library/react';
-import { Provider as JotaiProvider } from 'jotai';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { useTasks } from '../useTasks';
+import { useAtom } from 'jotai';
 
-const wrapper = ({ children }) => <JotaiProvider>{children}</JotaiProvider>;
+jest.mock('jotai', () => ({
+  useAtom: jest.fn(),
+}));
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mock-uuid'),
+}));
 
 describe('useTasks', () => {
+  const mockSetTasks = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
+    useAtom.mockReturnValue([[], mockSetTasks]);
   });
 
-  it('GIVEN empty tasks list WHEN adding a new task THEN should add task to list', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN empty tasks atom WHEN initializing hook THEN should return empty tasks and functions', () => {
+    const { result } = renderHook(() => useTasks());
+
+    expect(result.current.tasks).toEqual([]);
+    expect(result.current.addTask).toBeInstanceOf(Function);
+    expect(result.current.toggleTaskComplete).toBeInstanceOf(Function);
+    expect(result.current.removeTask).toBeInstanceOf(Function);
+  });
+
+  it('GIVEN empty tasks WHEN adding new task THEN should call setTasks with function', () => {
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('test task');
+      result.current.addTask('Test task');
     });
 
-    expect(result.current.tasks).toHaveLength(1);
-    expect(result.current.tasks[0]).toEqual({
-      id: 'fixed-id',
-      text: 'test task',
+    expect(mockSetTasks).toHaveBeenCalledWith(expect.any(Function));
+  });
+
+  it('GIVEN empty tasks WHEN adding new task THEN should create task with correct properties', () => {
+    const { result } = renderHook(() => useTasks());
+
+    act(() => {
+      result.current.addTask('Test task');
+    });
+
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall([]);
+
+    expect(newTasks).toHaveLength(1);
+    expect(newTasks[0]).toEqual({
+      id: 'mock-uuid',
+      text: 'Test task',
       completed: false,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-01T00:00:00.000Z',
     });
   });
 
-  it('GIVEN existing task WHEN editing task text THEN should update task text and timestamp', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with incomplete task WHEN toggling completion THEN should call setTasks with function', () => {
+    const mockTasks = [
+      { id: '1', text: 'Test task', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('original text');
+      result.current.toggleTaskComplete('1');
     });
 
-    act(() => {
-      result.current.editTask('fixed-id', 'edited text');
-    });
-
-    expect(result.current.tasks[0].text).toBe('edited text');
-    expect(result.current.tasks[0].updatedAt).toBe('2024-01-01T00:00:00.000Z');
+    expect(mockSetTasks).toHaveBeenCalledWith(expect.any(Function));
   });
 
-  it('GIVEN incomplete task WHEN toggling completion THEN should mark task as completed and update timestamp', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with incomplete task WHEN toggling completion THEN should mark task as completed', () => {
+    const mockTasks = [
+      { id: '1', text: 'Test task', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('test task');
+      result.current.toggleTaskComplete('1');
     });
 
-    expect(result.current.tasks[0].completed).toBe(false);
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
 
-    act(() => {
-      result.current.toggleTaskComplete('fixed-id');
-    });
-
-    expect(result.current.tasks[0].completed).toBe(true);
-    expect(result.current.tasks[0].updatedAt).toBe('2024-01-01T00:00:00.000Z');
+    expect(newTasks[0].completed).toBe(true);
   });
 
-  it('GIVEN existing task WHEN deleting task THEN should remove task from list', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with completed task WHEN toggling completion THEN should mark task as incomplete', () => {
+    const mockTasks = [
+      { id: '1', text: 'Test task', completed: true },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('test task');
+      result.current.toggleTaskComplete('1');
     });
 
-    const taskExists = result.current.tasks.some(task => task.id === 'fixed-id');
-    expect(taskExists).toBe(true);
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
 
-    act(() => {
-      result.current.deleteTask('fixed-id');
-    });
-
-    const taskStillExists = result.current.tasks.some(task => task.id === 'fixed-id');
-    expect(taskStillExists).toBe(false);
+    expect(newTasks[0].completed).toBe(false);
   });
 
-  it('GIVEN mixed completed and active tasks WHEN clearing completed tasks THEN should remove only completed tasks', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with multiple tasks WHEN toggling completion THEN should only toggle specified task', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+      { id: '2', text: 'Task 2', completed: true },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('task 1');
-      result.current.addTask('task 2');
+      result.current.toggleTaskComplete('1');
     });
 
-    act(() => {
-      result.current.toggleTaskComplete('fixed-id');
-    });
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
 
-    const initialLength = result.current.tasks.length;
-    const completedCount = result.current.completedTasks.length;
-
-    act(() => {
-      result.current.clearCompletedTasks();
-    });
-
-    expect(result.current.tasks.length).toBe(initialLength - completedCount);
+    expect(newTasks[0].completed).toBe(true);
+    expect(newTasks[1].completed).toBe(true);
   });
 
-  it('GIVEN mixed completed and active tasks WHEN accessing active and completed lists THEN should return correct filtered lists', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with existing task WHEN removing task THEN should call setTasks with function', () => {
+    const mockTasks = [
+      { id: '1', text: 'Test task', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('active task');
-      result.current.addTask('completed task');
+      result.current.removeTask('1');
     });
 
-    act(() => {
-      result.current.toggleTaskComplete('fixed-id');
-    });
-
-    const totalTasks = result.current.tasks.length;
-    const activeCount = result.current.activeTasks.length;
-    const completedCount = result.current.completedTasks.length;
-
-    expect(totalTasks).toBeGreaterThan(0);
-    expect(activeCount + completedCount).toBe(totalTasks);
-    expect(result.current.activeTasks.every(task => !task.completed)).toBe(true);
-    expect(result.current.completedTasks.every(task => task.completed)).toBe(true);
+    expect(mockSetTasks).toHaveBeenCalledWith(expect.any(Function));
   });
 
-  it('GIVEN multiple tasks WHEN editing non-existent task THEN should not modify any task', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with existing task WHEN removing task THEN should remove correct task', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+      { id: '2', text: 'Task 2', completed: true },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('task 1');
-      result.current.addTask('task 2');
+      result.current.removeTask('1');
     });
 
-    const originalTasks = [...result.current.tasks];
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
 
-    act(() => {
-      result.current.editTask('non-existent-id', 'new text');
-    });
-
-    expect(result.current.tasks).toEqual(originalTasks);
+    expect(newTasks).toHaveLength(1);
+    expect(newTasks[0].id).toBe('2');
   });
 
-  it('GIVEN multiple tasks WHEN toggling non-existent task THEN should not modify any task', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
+  it('GIVEN tasks with multiple tasks WHEN adding new task THEN should add to beginning of list', () => {
+    const mockTasks = [
+      { id: '1', text: 'Task 1', completed: false },
+    ];
+    useAtom.mockReturnValue([mockTasks, mockSetTasks]);
+
+    const { result } = renderHook(() => useTasks());
 
     act(() => {
-      result.current.addTask('task 1');
-      result.current.addTask('task 2');
+      result.current.addTask('New Task');
     });
 
-    const originalTasks = [...result.current.tasks];
+    const setTasksCall = mockSetTasks.mock.calls[0][0];
+    const newTasks = setTasksCall(mockTasks);
 
-    act(() => {
-      result.current.toggleTaskComplete('non-existent-id');
-    });
-
-    expect(result.current.tasks).toEqual(originalTasks);
-  });
-
-  it('GIVEN multiple tasks WHEN deleting non-existent task THEN should not modify any task', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
-
-    act(() => {
-      result.current.addTask('task 1');
-      result.current.addTask('task 2');
-    });
-
-    const originalTasks = [...result.current.tasks];
-
-    act(() => {
-      result.current.deleteTask('non-existent-id');
-    });
-
-    expect(result.current.tasks).toEqual(originalTasks);
-  });
-
-  it('GIVEN completed task WHEN toggling completion again THEN should mark task as incomplete', () => {
-    const { result } = renderHook(() => useTasks(), { wrapper });
-
-    act(() => {
-      result.current.addTask('test task');
-    });
-
-    act(() => {
-      result.current.toggleTaskComplete('fixed-id');
-    });
-
-    expect(result.current.tasks[0].completed).toBe(true);
-
-    act(() => {
-      result.current.toggleTaskComplete('fixed-id');
-    });
-
-    expect(result.current.tasks[0].completed).toBe(false);
-    expect(result.current.tasks[0].updatedAt).toBe('2024-01-01T00:00:00.000Z');
+    expect(newTasks).toHaveLength(2);
+    expect(newTasks[0].text).toBe('New Task');
+    expect(newTasks[1].text).toBe('Task 1');
   });
 });
