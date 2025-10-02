@@ -5,28 +5,31 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    height: '100%',
+    width: '100%',
   },
   mainContent: {
     flex: 1,
     backgroundColor: colors.white,
-    marginHorizontal: 0,
     borderTopWidth: 1,
     borderTopColor: colors.borderLight,
+    paddingBottom: 86,
   },
   contentContainer: {
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
-    paddingBottom: 190,
+    paddingBottom: 20,
   },
   bottomNavigation: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
     height: 86,
     backgroundColor: colors.white,
     flexDirection: 'row',
+    width: '100%',
   },
   navTab: {
     flex: 1,
@@ -36,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   navTabActive: {
     borderTopWidth: 3,
-    borderTopColor: '#BDC5D0',
+    borderTopColor: colors.neutral300,
   },
   navTabContent: {
     flexDirection: 'column',
@@ -50,7 +53,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     fontFamily: typography.fontFamily.inter,
-    color: '#7C8898',
+    color: colors.neutral500,
     textAlign: 'center',
     lineHeight: 14.4,
   },
