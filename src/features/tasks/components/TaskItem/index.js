@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import ButtonTertiary from '../../../../shared/components/ButtonTertiary';
 import RadioButton from '../../../../shared/components/RadioButton';
 import InputText from '../../../../shared/components/InputText';
-import { useI18n } from '../../../../shared/hooks/useI18n';
+import { useI18n } from '../../../../i18n';
 import { styles } from './styles';
 
 const TaskItem = ({ task, onToggleComplete, onRemove, onEdit, removeButtonText }) => {

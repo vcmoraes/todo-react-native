@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, TABS, TAB_TRANSLATION_KEYS } from './index';
-import { useI18n } from '../shared/hooks/useI18n';
+import { useI18n } from '../i18n';
 import { styles } from '../styles/App.styles';
 import PlusIcon from '../shared/components/PlusIcon';
 

@@ -22,4 +22,6 @@ i18n
     },
   });
 
+export { useI18n } from './hooks/useI18n';
+export { LANGUAGES } from './languages';
 export default i18n;

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useTasks } from '../../hooks/useTasks';
-import { useI18n } from '../../../../shared/hooks/useI18n';
+import { useI18n } from '../../../../i18n';
 import TaskItem from '../../components/TaskItem';
 import AddTask from '../../components/AddTask';
 import { styles } from './styles';
