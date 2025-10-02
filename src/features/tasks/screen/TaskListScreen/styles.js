@@ -7,6 +7,9 @@ export const styles = StyleSheet.create({
   },
   listContent: {
     flexGrow: 1,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 20,
   },
   divider: {
     height: 1,

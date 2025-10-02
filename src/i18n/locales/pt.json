@@ -5,7 +5,7 @@
   "addTask": {
     "title": "Adicionar Nova Tarefa",
     "label": "Nome",
-    "placeholder": "Novo nome",
+    "placeholder": "Nova tarefa",
     "button": "Adicionar"
   },
   "taskList": {

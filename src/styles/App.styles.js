@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   navTabActive: {
     borderTopWidth: 3,
-    borderTopColor: colors.neutral300,
+    borderTopColor: colors.primary,
   },
   navTabContent: {
     flexDirection: 'column',

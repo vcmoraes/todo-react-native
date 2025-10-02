@@ -44,19 +44,18 @@ const TaskListScreen = () => {
   ), []);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={tasks}
-        renderItem={renderTaskItem}
-        keyExtractor={getTaskKey}
-        contentContainerStyle={styles.listContent}
-        ListHeaderComponent={renderHeader}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={renderEmptyState}
-        ItemSeparatorComponent={renderSeparator}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <FlatList
+      style={styles.container}
+      data={tasks}
+      renderItem={renderTaskItem}
+      keyExtractor={getTaskKey}
+      contentContainerStyle={styles.listContent}
+      ListHeaderComponent={renderHeader}
+      ListFooterComponent={renderFooter}
+      ListEmptyComponent={renderEmptyState}
+      ItemSeparatorComponent={renderSeparator}
+      showsVerticalScrollIndicator={false}
+    />
   );
 };
 

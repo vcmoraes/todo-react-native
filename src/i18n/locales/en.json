@@ -5,7 +5,7 @@
   "addTask": {
     "title": "Add New Task",
     "label": "Name",
-    "placeholder": "New name",
+    "placeholder": "New task",
     "button": "Add"
   },
   "taskList": {
