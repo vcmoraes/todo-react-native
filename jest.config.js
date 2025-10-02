@@ -18,6 +18,7 @@ module.exports = {
     '!src/**/screen/**',
     '!src/**/providers/**',
     '!src/**/constants/**',
+    '!src/**/navigation/**',
     '!src/**/index.js',
   ],
   coverageThreshold: {

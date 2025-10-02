@@ -11,8 +11,6 @@ export const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     backgroundColor: colors.white,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderLight,
     paddingBottom: 86,
   },
   contentContainer: {

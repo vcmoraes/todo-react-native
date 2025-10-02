@@ -24,7 +24,7 @@ const AddTask = () => {
     <View style={styles.container}>
       <InputText
         label={translate('addTask.label')}
-        required={true}
+        required
         placeholder={translate('addTask.placeholder')}
         value={taskText}
         onChangeText={setTaskText}

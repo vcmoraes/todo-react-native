@@ -1,4 +1,8 @@
 {
+  "navigation": {
+    "tasks": "Tarefas",
+    "item": "Item"
+  },
   "tasks": {
     "title": "Suas Tarefas"
   },

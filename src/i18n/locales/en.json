@@ -1,4 +1,8 @@
 {
+  "navigation": {
+    "tasks": "Tasks",
+    "item": "Item"
+  },
   "tasks": {
     "title": "Your Tasks"
   },
