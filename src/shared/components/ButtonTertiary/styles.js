@@ -12,4 +12,10 @@ export const styles = StyleSheet.create({
     color: colors.primary,
     textDecorationLine: 'underline',
   },
+  buttonTextPrimary: {
+    color: colors.primary,
+  },
+  buttonTextDanger: {
+    color: colors.danger,
+  },
 });

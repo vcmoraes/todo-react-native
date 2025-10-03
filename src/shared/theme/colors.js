@@ -14,6 +14,7 @@ export const colors = {
   textSecondary: '#666666',
   border: '#666666',
   borderLight: '#BDC5D0',
+  danger: '#DC3545',
 };
 
 export default colors;

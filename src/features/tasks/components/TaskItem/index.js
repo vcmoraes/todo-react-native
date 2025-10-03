@@ -68,7 +68,7 @@ const TaskItem = ({ task, onToggleComplete, onRemove, onEdit, removeButtonText }
         text={isEditing ? translate('taskItem.save') : translate('taskItem.edit')}
         onPress={isEditing ? handleSave : handleEdit}
       />
-      <ButtonTertiary
+      <ButtonTertiary.Danger
         text={removeButtonText}
         onPress={handleRemove}
       />
