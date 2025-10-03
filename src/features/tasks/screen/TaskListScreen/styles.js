@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   emptyContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 60,

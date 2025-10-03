@@ -2,11 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   taskItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'column',
     padding: 16,
-    minHeight: 90,
+    minHeight: 120,
   },
   editContainer: {
     flex: 1,
@@ -16,9 +14,8 @@ export const styles = StyleSheet.create({
     marginRight: 8,
   },
   actionButtons: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'flex-end',
-    gap: 4,
-    marginLeft: 8,
+    gap: 4
   },
 });
